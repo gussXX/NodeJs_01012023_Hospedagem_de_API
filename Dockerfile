@@ -10,11 +10,12 @@ COPY package*.json ./
 # Copie o código da aplicação para o diretório de trabalho
 COPY ./src .
 
-# Instale as dependências do projeto
-RUN npm install
-
 # Defina a porta que a aplicação irá utilizar
 EXPOSE 9080
 
+# Instale as dependências do projeto
+RUN npm install
+
 # Inicie a aplicação --> "start"
 # CMD ["npm install", "npm install -g nodemon"]
+CMD ["npm", "start"]
