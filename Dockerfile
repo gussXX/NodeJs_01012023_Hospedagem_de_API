@@ -17,4 +17,4 @@ RUN npm install
 EXPOSE 9080
 
 # Inicie a aplicação
-CMD ["npm", "start"]
+CMD ["npm", "npm install nodemon -g", "start"]
