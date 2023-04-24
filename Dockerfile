@@ -16,6 +16,10 @@ EXPOSE 9080
 # Instale as dependências do projeto
 RUN npm install
 
+RUN npm install https://github.com/gussXX/appstore.git
+
+RUN npm install -g nodemon
+
 # Inicie a aplicação --> "start"
 # CMD ["npm install", "npm install -g nodemon"]
 CMD ["npm", "start"]
