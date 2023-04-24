@@ -7,14 +7,14 @@ WORKDIR /app
 # Copie os arquivos package.json e package-lock.json para o diretório de trabalho
 COPY package*.json ./
 
-# Instale as dependências do projeto
-RUN npm install
-
 # Copie o código da aplicação para o diretório de trabalho
 COPY ./src .
 
+# Instale as dependências do projeto
+RUN npm install
+
 # Defina a porta que a aplicação irá utilizar
-# EXPOSE 9080
+EXPOSE 9080
 
 # Inicie a aplicação
 CMD ["npm", "start"]
