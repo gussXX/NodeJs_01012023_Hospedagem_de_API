@@ -9,9 +9,13 @@ const app = express();
 
 const ampCors = require('amp-toolbox-cors');
 const corsOptions = {
-  origin: 'https://amp.gmail.dev',
+  origin: '*',
   optionsSuccessStatus: 200
 }
+
+app.use(cors({
+  origin: '*'
+}))
 
 app.use(cors(corsOptions));
 app.use(ampCors());
