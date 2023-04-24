@@ -1,9 +1,3 @@
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
 // importando os pacotes para uso no arquivo index.js
 const express     = require('express');
 const morgan      = require('morgan');
@@ -12,6 +6,12 @@ const bodyParser  = require('body-parser');
 
 // crio um servidor express
 const app = express();
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // aplico configurações para dentro do servidor express, adicionando middlewares (body-parser, morgan, cors)
 app.use(morgan('dev'));
