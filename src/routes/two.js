@@ -1,5 +1,9 @@
-const two = (req, res) => {
+const two = (req, res, next) => {
 
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+    
     data = {
         "items": [
             {
