@@ -16,5 +16,5 @@ RUN npm install
 # Defina a porta que a aplicação irá utilizar
 EXPOSE 9080
 
-# Inicie a aplicação
-CMD ["npm", "npm install nodemon -g", "start"]
+# Inicie a aplicação --> "start"
+CMD ["npm", "node src/index.js"]
