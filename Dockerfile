@@ -17,4 +17,4 @@ RUN npm install
 EXPOSE 9080
 
 # Inicie a aplicação --> "start"
-CMD ["npm", "node src/index.js"]
+CMD ["npm"]
