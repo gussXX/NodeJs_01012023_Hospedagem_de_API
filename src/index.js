@@ -8,6 +8,12 @@ const bodyParser  = require('body-parser');
 const app = express();
 
 const ampCors = require('amp-toolbox-cors');
+const corsOptions = {
+  origin: 'https://amp.gmail.dev',
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 app.use(ampCors());
 
 app.use(function(req, res, next) {
