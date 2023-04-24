@@ -83,4 +83,5 @@ const ORIGIN_REGEX = new RegExp(
   module.exports = {
     enableCors,
     assertCors,
+    cors
   };
