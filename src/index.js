@@ -7,6 +7,9 @@ const bodyParser  = require('body-parser');
 // crio um servidor express
 const app = express();
 
+const ampCors = require('amp-toolbox-cors');
+app.use(ampCors());
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
