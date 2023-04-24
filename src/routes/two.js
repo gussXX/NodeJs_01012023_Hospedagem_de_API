@@ -1,8 +1,7 @@
-const two = (req, res)=>{
+const two = (req, res) => {
 
-    data ={
-        
-            "items": [
+    data = {
+        "items": [
             {
                 "id": 1,
                 "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
@@ -11,14 +10,14 @@ const two = (req, res)=>{
                 "wrongtext": "Vamos te apresentar!",
                 "c": "2",
                 "answers": [
-                {
-                    "ida": 1,
-                    "answer": "sim"
-                },
-                {
-                    "ida": 2,
-                    "answer": "nao"
-                }
+                    {
+                        "ida": 1,
+                        "answer": "sim"
+                    },
+                    {
+                        "ida": 2,
+                        "answer": "nao"
+                    }
                 ]
             },
             {
@@ -29,22 +28,22 @@ const two = (req, res)=>{
                 "wrongtext": "Vamos te apresentar!",
                 "c": "1",
                 "answers": [
-                {
-                    "ida": 1,
-                    "answer": "sim"
-                },
-                {
-                    "ida": 2,
-                    "answer": "nao"
-                },
-                {
-                    "ida": 3,
-                    "answer": "vou ver e te aviso"
-                },
-                {
-                    "ida": 4,
-                    "answer": "irineu"
-                }
+                    {
+                        "ida": 1,
+                        "answer": "sim"
+                    },
+                    {
+                        "ida": 2,
+                        "answer": "nao"
+                    },
+                    {
+                        "ida": 3,
+                        "answer": "vou ver e te aviso"
+                    },
+                    {
+                        "ida": 4,
+                        "answer": "irineu"
+                    }
                 ]
             },
             {
@@ -55,18 +54,18 @@ const two = (req, res)=>{
                 "wrongtext": "Vamos te apresentar!",
                 "c": "1",
                 "answers": [
-                {
-                    "ida": 1,
-                    "answer": "sim"
-                },
-                {
-                    "ida": 2,
-                    "answer": "nao"
-                }
+                    {
+                        "ida": 1,
+                        "answer": "sim"
+                    },
+                    {
+                        "ida": 2,
+                        "answer": "nao"
+                    }
                 ]
             }
-            ]
-        }
+        ]
+    }
 
     return res.json(data);
 }
