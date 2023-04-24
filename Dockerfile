@@ -14,7 +14,7 @@ RUN npm install
 COPY ./src .
 
 # Defina a porta que a aplicação irá utilizar
-EXPOSE 9000
+EXPOSE 9080
 
 # Inicie a aplicação
 CMD ["npm", "start"]
