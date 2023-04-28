@@ -17,6 +17,16 @@ app.use(cors({
   origin: '*'
 }))
 
+//INCLUIR SITE QUE SERA PERMITIDO
+app.use(cors({
+  origin: '*'
+}))
+
+app.use(cors({
+  origin: 'https://meusite.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}));
+
 app.use(cors(corsOptions));
 app.use(ampCors());
 
