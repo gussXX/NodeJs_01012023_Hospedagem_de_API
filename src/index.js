@@ -14,15 +14,6 @@ const corsOptions = {
 }
 
 app.use(cors({
-  origin: '*'
-}))
-
-//INCLUIR SITE QUE SERA PERMITIDO
-app.use(cors({
-  origin: '*'
-}))
-
-app.use(cors({
   origin: 'https://amp.gmail.dev/playground/',
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
