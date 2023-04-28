@@ -23,7 +23,7 @@ app.use(cors({
 }))
 
 app.use(cors({
-  origin: 'https://meusite.com',
+  origin: 'https://amp.gmail.dev/playground/',
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 }));
 
