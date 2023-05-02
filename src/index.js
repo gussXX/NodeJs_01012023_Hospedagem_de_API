@@ -9,24 +9,23 @@ const app = express();
 
 //=======================C O R S=========================
 const ampCors = require('amp-toolbox-cors');
-const corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200
-}
-
-app.use(cors({
-  origin: 'https://amp.gmail.dev/playground/',
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
-}));
-
-app.use(cors(corsOptions));
 app.use(ampCors());
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(ampCors({
+  verifyOrigin: false
+}));
+
+app.use(ampCors({
+  allowCredentials: false
+}));
+
+app.use(ampCors({
+  enableAmpRedirectTo: false
+}));
+
+app.use(ampCors({
+  verbose: false
+}));
 //=======================C O R S=========================
 
 // aplico configurações para dentro do servidor express, adicionando middlewares (body-parser, morgan, cors)
@@ -65,5 +64,5 @@ app.post('/add', (req, res) => {
   return res.json({ result });
 });
 
-// o servidor irá rodar dentro da porta 9000
+// o servidor irá rodar dentro da porta 9080
 app.listen(9080, () => console.log('Express Iniciado!'));
