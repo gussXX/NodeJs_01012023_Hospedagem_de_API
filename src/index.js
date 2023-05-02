@@ -7,6 +7,7 @@ const bodyParser  = require('body-parser');
 // crio um servidor express
 const app = express();
 
+//=======================C O R S=========================
 const ampCors = require('amp-toolbox-cors');
 const corsOptions = {
   origin: '*',
@@ -26,12 +27,13 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+//=======================C O R S=========================
 
 // aplico configurações para dentro do servidor express, adicionando middlewares (body-parser, morgan, cors)
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({origin: '*'}));
 
 
 // DB local (tempo de execução)
