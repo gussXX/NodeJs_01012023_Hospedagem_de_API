@@ -15,8 +15,8 @@ const two = (req, res, next) => {
 
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     
-    //res.header('AMP-Access-Control-Allow-Source-Origin', 'amp@gmail.dev');
-    res.header('AMP-Access-Control-Allow-Source-Origin', '*');
+    res.header('AMP-Access-Control-Allow-Source-Origin', ['amp@gmail.dev', 'comunicacao@mkt.esfera.com.vc']);
+    //res.header('AMP-Access-Control-Allow-Source-Origin', '*');
     res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
 
     res.header('vary', 'Accept-Encoding');
