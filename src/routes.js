@@ -3,7 +3,9 @@ const router = express.Router();
 
 const {first} = require('./routes/first.js');
 const {two} = require('./routes/two.js');
-var cors = require('cors')
+const { image } = require('./routes/image.js');
+
+var cors = require('cors');
 
 var corsOptions = {
     origin: '*',
@@ -15,6 +17,8 @@ var corsOptions = {
 
 router.post('/first', first)
 router.get('/two', cors(corsOptions), two)
+
+router.get('/image', image)
 
 // router.get('/cors',)
 
