@@ -11,13 +11,18 @@ const image = (req, res, next) => {
     res.header('x-xss-protection', '0');
     next();
     
-    data = {
+    var data = {
         "items": []
     }
-    const imageName = 'https://www.polifitema.com.br/wp-content/uploads/2017/02/success-icon-7-600x600.png'
-    return res.sendFile(imageName, {root: __dirname});
+    var urls = {
+        "img_01": "https://www.polifitema.com.br/wp-content/uploads/2017/02/success-icon-7-600x600.png",
+    }
 
+    //const imageName = 'https://www.polifitema.com.br/wp-content/uploads/2017/02/success-icon-7-600x600.png'
+    //return res.sendFile(imageName, {root: __dirname});
     //return res.json(data);
+
+    return res.json(urls[img_01])
 }
 
 module.exports = {
