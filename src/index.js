@@ -4,6 +4,8 @@ const morgan      = require('morgan');
 const cors        = require('cors');
 const bodyParser  = require('body-parser');
 
+require('dotenv').config()
+
 // crio um servidor express
 const app = express();
 

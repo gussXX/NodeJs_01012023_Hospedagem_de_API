@@ -1,7 +1,7 @@
 const two = (req, res) => {
 
     const { MongoClient, ServerApiVersion } = require('mongodb');
-    const uri = "mongodb+srv://gustavobressan:bringme33@financas.i3pi8od.mongodb.net/?retryWrites=true&w=majority";
+    const uri = process.env.STRING_MONGODB;
 
     const mongoOption = {
         useNewUrlParser: true, 
@@ -25,7 +25,12 @@ const two = (req, res) => {
             const options ={};
 
             result = await users.find(query, options).toArray();
-            res.status(200).json(result)
+
+            if (result.length === 0){
+                res.status(404).json("A consulta não retornou valores.")
+            } else{
+                res.status(200).json(result)
+            }
         } 
 
         catch(error){
@@ -42,5 +47,3 @@ const two = (req, res) => {
 }
 //
 module.exports = { two }
-
-//          res.status(404).json('Consulta')
