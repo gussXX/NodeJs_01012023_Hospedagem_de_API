@@ -1,76 +1,43 @@
-const first = (req, res)=>{
+const first = (req, res)=> {
 
-    data ={
-        
-            "items": [
-            {
-                "id": 1,
-                "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
-                "question": "Voce conhece a esfera?",
-                "text": "ficamos felizes!",
-                "wrongtext": "Vamos te apresentar!",
-                "c": "2",
-                "answers": [
-                {
-                    "ida": 1,
-                    "answer": "sim"
-                },
-                {
-                    "ida": 2,
-                    "answer": "nao"
-                }
-                ]
-            },
-            {
-                "id": 2,
-                "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
-                "question": "Voce conhece a esfera?",
-                "text": "ficamos felizes!",
-                "wrongtext": "Vamos te apresentar!",
-                "c": "1",
-                "answers": [
-                {
-                    "ida": 1,
-                    "answer": "sim"
-                },
-                {
-                    "ida": 2,
-                    "answer": "nao"
-                },
-                {
-                    "ida": 3,
-                    "answer": "vou ver e te aviso"
-                },
-                {
-                    "ida": 4,
-                    "answer": "irineu"
-                }
-                ]
-            },
-            {
-                "id": 3,
-                "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
-                "question": "Voce conhece a esfera?",
-                "text": "ficamos felizes!",
-                "wrongtext": "Vamos te apresentar!",
-                "c": "1",
-                "answers": [
-                {
-                    "ida": 1,
-                    "answer": "sim"
-                },
-                {
-                    "ida": 2,
-                    "answer": "nao"
-                }
-                ]
-            }
-            ]
+    const { MongoClient, ServerApiVersion } = require('mongodb');
+    const uri = "mongodb+srv://gustavobressan:bringme33@financas.i3pi8od.mongodb.net/?retryWrites=true&w=majority";
+
+    const client = new MongoClient(uri, {
+        serverApi: {
+          version: ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
         }
+      });
 
-    return res.json(data);
+      async function run() {
+        try {
+        // CONEXAO DO CLIENTE COM O SERVIDOR
+        await client.connect();
+
+        const db = client.db();
+        const collection = db.collection('users');
+        const documents = await collection.find({}).toArray();
+
+        console.log('Docs encontrados: ', documents);
+        return res.json(documents);
+
+        } catch(err) {
+            console.error('Erro ao encontrar documentos:', err);
+            res.status(500).json({ error: 'Erro ao encontrar documentos' });
+        }
+        
+        finally {
+          // ERROS
+          await client.close();
+          return;
+        }
+      }
+
+      run()
+      .catch(console.dir);
+
 }
 //
-module.exports = {
-    first
-}
+module.exports = {first}

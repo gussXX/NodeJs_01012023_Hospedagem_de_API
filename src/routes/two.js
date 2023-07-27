@@ -1,99 +1,46 @@
-const two = (req, res, next) => {
+const two = (req, res) => {
 
-    // Access-Control-Allow-Origin: https://amp.gmail.dev
-    // AMP-Access-Control-Allow-Source-Origin: amp@gmail.dev
-    // Access-Control-Expose-Headers: AMP-Access-Control-Allow-Source-Origin
+    const { MongoClient, ServerApiVersion } = require('mongodb');
+    const uri = "mongodb+srv://gustavobressan:bringme33@financas.i3pi8od.mongodb.net/?retryWrites=true&w=majority";
 
-    //response.set('field', 'value');
-
-    res.header("AMP-Same-Origin", 'true');
-
-    res.header("content-type", 'application/json');
-
-    res.header('Access-Control-Allow-Origin', '*');
-    //res.header('Access-Control-Allow-Origin', 'https://amp.gmail.dev');
-
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    
-    //res.header('AMP-Access-Control-Allow-Source-Origin', ['amp@gmail.dev', 'comunicacao@mkt.esfera.com.vc']);
-    //res.header('AMP-Access-Control-Allow-Source-Origin', '*');
-    res.header('Access-Control-Expose-Headers', 'AMP-Access-Control-Allow-Source-Origin');
-
-    res.header('vary', 'Accept-Encoding');
-    res.header('x-content-type-options', 'nosniff');
-    res.header('x-xss-protection', '0');
-    next();
-    
-    data = {
-        "items": [
-            {
-                "id": 1,
-                "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
-                "question": "Voce conhece a esfera?",
-                "text": "ficamos felizes!",
-                "wrongtext": "Vamos te apresentar!",
-                "c": "2",
-                "answers": [
-                    {
-                        "ida": 1,
-                        "answer": "sim"
-                    },
-                    {
-                        "ida": 2,
-                        "answer": "nao"
-                    }
-                ]
-            },
-            {
-                "id": 2,
-                "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
-                "question": "Voce conhece a esfera?",
-                "text": "ficamos felizes!",
-                "wrongtext": "Vamos te apresentar!",
-                "c": "1",
-                "answers": [
-                    {
-                        "ida": 1,
-                        "answer": "sim"
-                    },
-                    {
-                        "ida": 2,
-                        "answer": "nao"
-                    },
-                    {
-                        "ida": 3,
-                        "answer": "vou ver e te aviso"
-                    },
-                    {
-                        "ida": 4,
-                        "answer": "irineu"
-                    }
-                ]
-            },
-            {
-                "id": 3,
-                "img": "https://image.mkt.esfera.com.vc/lib/fe3e15717564047b751075/m/6/592c04b0-67d1-45a1-b002-71f71b52d9e3.png",
-                "question": "Voce conhece a esfera?",
-                "text": "ficamos felizes!",
-                "wrongtext": "Vamos te apresentar!",
-                "c": "1",
-                "answers": [
-                    {
-                        "ida": 1,
-                        "answer": "sim"
-                    },
-                    {
-                        "ida": 2,
-                        "answer": "nao"
-                    }
-                ]
-            }
-        ]
+    const mongoOption = {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true,
+        serverApi: {
+            version: ServerApiVersion.v1,
+            strict: true,
+            deprecationErrors: true,
+        }
     }
 
-    return res.json(data);
+    const client = new MongoClient(uri, mongoOption);
+    const requisition = req.body;
+
+    async function run() {
+        try {
+            const database = client.db("users");
+            const users = database.collection("users");
+
+            const query = {};
+            const options ={};
+
+            result = await users.find(query, options).toArray();
+            res.status(200).json(result)
+        } 
+
+        catch(error){
+            console.error(error);
+            res.status(500).json({ error: "" });
+        }
+        
+        finally {
+          await client.close();
+        }
+      }
+      run().catch(console.dir);
+
 }
 //
-module.exports = {
-    two
-}
+module.exports = { two }
+
+//          res.status(404).json('Consulta')
