@@ -28,13 +28,8 @@ const ler_valores_especificos = (req, res) => {
                 }
             };
 
-            result = await collection.find(query, options).toArray();
-
-            if (result.length === 0){
-                res.status(404).json("A consulta não retornou valores.")
-            } else{
-                res.status(200).json(result)
-            }
+            result = await collection.find(query, options).toArray;
+            console.log(result.body)
         } 
 
         catch(error){
