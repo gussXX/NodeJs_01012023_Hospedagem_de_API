@@ -1,4 +1,4 @@
-const two = (req, res) => {
+const ler_valores_especificos = (req, res) => {
 
     const { MongoClient, ServerApiVersion } = require('mongodb');
     const uri = process.env.STRING_MONGODB;
@@ -18,13 +18,17 @@ const two = (req, res) => {
 
     async function run() {
         try {
-            const database = client.db("users");
-            const users = database.collection("users");
+            const database = client.db("db_users");
+            const collection = database.collection("user_data");
 
             const query = {};
-            const options ={};
+            const options = {
+                projection: {
+                    "_user" : "guss"
+                }
+            };
 
-            result = await users.find(query, options).toArray();
+            result = await collection.find(query, options).toArray();
 
             if (result.length === 0){
                 res.status(404).json("A consulta não retornou valores.")
@@ -46,4 +50,4 @@ const two = (req, res) => {
 
 }
 //
-module.exports = { two }
+module.exports = { ler_valores_especificos }
