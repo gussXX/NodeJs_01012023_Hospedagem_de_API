@@ -1,48 +1,56 @@
-const ler_valores_especificos = (req, res) => {
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-    const { MongoClient, ServerApiVersion } = require('mongodb');
-    const uri = process.env.STRING_MONGODB;
+const uri = process.env.STRING_MONGODB;
 
-    const mongoOption = {
-        useNewUrlParser: true, 
-        useUnifiedTopology: true,
-        serverApi: {
-            version: ServerApiVersion.v1,
-            strict: true,
-            deprecationErrors: true,
-        }
-    }
+const mongoOption = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+};
 
-    const client = new MongoClient(uri, mongoOption);
-    const requisition = req.body;
+const client = new MongoClient(uri, mongoOption);
 
-    async function run() {
-        try {
-            const database = client.db("db_users");
-            const collection = database.collection("user_data");
+async function ler_valores_especificos(req, res) {
 
-            const query = {};
-            const options = {
-                projection: {
-                    "_user" : "guss"
-                }
-            };
+const requisition = req.body;
 
-            result = await collection.find(query, options).toArray;
-            console.log(result.body)
-        } 
+  try {
+    await client.connect();
 
-        catch(error){
-            console.error(error);
-            res.status(500).json({ error: "" });
-        }
-        
-        finally {
-          await client.close();
-        }
-      }
-      run().catch(console.dir);
+    const database = client.db("db_users");
+    const collection = database.collection("user_data");
 
+    const query = { 
+        "_id" : new ObjectId(requisition.id),
+        "_user": requisition.user 
+    };
+
+    const pipeline = [
+      { $match: query },
+      { $unwind: "$mounths."+requisition.mounth},
+      { $project: { "value": "$mounths."+requisition.mounth+".values.value" } },
+      { $group: { "_id": null, "sumValues": { $sum: "$value" } } },
+      { $project: { "_id": 0, "sumValues": 1 } }
+    ];
+
+    const result = await collection.aggregate(pipeline).toArray();
+
+    console.log(pipeline);
+    res.status(200).json(result);
+
+  } catch (error) {
+
+    console.error(error);
+    res.status(500).json({ error: "" });
+
+  } finally {
+
+    await client.close();
+  }
 }
-//
-module.exports = { ler_valores_especificos }
+
+module.exports = { ler_valores_especificos };

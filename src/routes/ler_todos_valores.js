@@ -14,9 +14,11 @@ const ler_todos_valores = (req, res) => {
     }
 
     const client = new MongoClient(uri, mongoOption);
+    
+    async function run() {
+
     const requisition = req.body;
 
-    async function run() {
         try {
             const database = client.db("db_users");
             const collection = database.collection("user_data");

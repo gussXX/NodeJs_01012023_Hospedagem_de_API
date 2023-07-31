@@ -1,4 +1,4 @@
-const adicionar_valor_ao_mes = (req, res) => {
+const cadastrar_usuarios = (req, res) => {
 
     const { MongoClient, ServerApiVersion } = require('mongodb');
     const uri = process.env.STRING_MONGODB;
@@ -47,4 +47,4 @@ const adicionar_valor_ao_mes = (req, res) => {
 
 }
 //
-module.exports = { adicionar_valor_ao_mes }
+module.exports = { cadastrar_usuarios }
