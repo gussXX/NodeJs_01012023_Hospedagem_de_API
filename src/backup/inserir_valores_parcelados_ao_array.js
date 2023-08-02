@@ -24,45 +24,49 @@ async function inserir_valores_parcelados_ao_array(req, res) {
     const database = client.db("db_users");
     const collection = database.collection("user_data");
 
-    var mesDaParcela = 'mounths.' + requisition.mounth;
-    var mesDaParcela2 = requisition.mounth;
-
     const mounthsList = [
-      'January', 'February', 'March', 'April', 'May', 'Jun',
-      'July', 'August', 'September', 'October', 'November', 'December'
+        'January', 'February',  'March',        'April',    'May',      'Jun',
+        'July',    'August',    'September',    'October',  'November', 'December'
     ];
+
+    const mesDaParcela = ['mounths.'+requisition.mounth];
 
     var arrayParcelas = []
 
-    if (requisition.values.parc.isInstallments == true) {
-      for (let index = 0; index <= (requisition.values.parc.quant - 1); index++) {
-
-        var valueParcelas = Number(requisition.values.value / requisition.values.parc.quant).toFixed(2);
-
-        for (let i = 0; i < mounthsList.length; i++) {
-
-          if (mounthsList[i] == mesDaParcela2) {
-          
-            mesDaParcela2 = mounthsList[i]
-            arrayParcelas.push({[mesDaParcela2]: parseFloat(valueParcelas).toFixed(2)})
-            mesDaParcela2 = mounthsList[i + 1]
-
-            //ESTA PARTE DO CODIGO CORRIGE A DIFERENÇA DO ARREDONDAMENTO DAS PARCELAS E JOGA SEU VALOR PARA A PRIMEIRA.
-            const novoValor = (parseFloat(valueParcelas) + parseFloat(requisition.values.value - (requisition.values.parc.quant * valueParcelas))).toFixed(2);
-            arrayParcelas[0] = { [requisition.mounth]: parseFloat(novoValor).toFixed(2)}
-              
-            break;
-            
+    if(requisition.values.parc.isInstallments == true){
+       for (let index = 0; index <= (requisition.values.parc.quant - 1 ); index++) {
+    
+       var valueParcelas = Number(requisition.values.value / requisition.values.parc.quant).toFixed(2);
+       //var valueParcelasSobra = requisition.values.value % requisition.values.parc.quant;
+        arrayParcelas.unshift(
+          {
+            ["parc_" + (index + 1)] : parseFloat(valueParcelas).toFixed(2) 
           }
-        }
+        )
+       }
+       
+       const novoValor = (parseFloat(valueParcelas) + parseFloat(requisition.values.value - (requisition.values.parc.quant * valueParcelas))).toFixed(2);
 
-      }
+       function corrigirUltimaParcela(lista, novoValor){
+        lista[lista.length - 1] = {["parc_1"]: novoValor};
+       }
+       corrigirUltimaParcela(arrayParcelas, novoValor);
 
-    } else {
+    }else{
       null
     }
 
     console.log(arrayParcelas)
+
+    for (let i = 0; i < mounthsList.length; i++) {
+      if(mounthsList[i] == mesDaParcela){
+        indexDoMes = i;
+        nomeDoMes = mounthsList[i];
+
+        mesDaParcela = mounthsList[i]
+        break;
+      }
+    }
 
     const newObject = {
       _id: new ObjectId(0),
@@ -72,11 +76,11 @@ async function inserir_valores_parcelados_ao_array(req, res) {
         "font": requisition.tipe.font
       },
       values: {
-        "total": requisition.values.value,
+        "total" :requisition.values.value,
         "value": requisition.values.value,
         "parc": {
-          "isInstallments": requisition.values.parc.isInstallments,
-          "quant": requisition.values.parc.quant,
+          "isInstallments" : requisition.values.parc.isInstallments,
+          "quant" : requisition.values.parc.quant,
           "parcValues": arrayParcelas
         },
       },
