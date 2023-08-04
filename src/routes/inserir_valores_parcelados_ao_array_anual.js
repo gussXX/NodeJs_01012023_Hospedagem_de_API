@@ -14,7 +14,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function inserir_valores_parcelados_ao_array(req, res) {
+async function inserir_valores_parcelados_ao_array_anual(req, res) {
 
   const requisition = req.body;
 
@@ -110,4 +110,4 @@ async function inserir_valores_parcelados_ao_array(req, res) {
   }
 }
 
-module.exports = { inserir_valores_parcelados_ao_array };
+module.exports = { inserir_valores_parcelados_ao_array_anual };

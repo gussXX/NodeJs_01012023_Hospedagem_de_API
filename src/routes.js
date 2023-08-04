@@ -12,6 +12,9 @@ const {inserir_valores_parcelados_ao_array} = require('./routes/inserir_valores_
 const {filtrar_valores_por_tipo} = require('./routes/filtrar_valores_por_tipo.js');
 const {somar_entradas} = require('./routes/somar_entradas.js');
 
+const {inserir_valores_parcelados_ao_array_anual} = require('./routes/inserir_valores_parcelados_ao_array_anual.js');
+const {ler_valores_especificos_anual} = require('./routes/ler_valores_especificos_anual.js');
+
 var cors = require('cors');
 
 var corsOptions = {
@@ -29,6 +32,9 @@ router.post('/inserir_valores_ao_array', cors(corsOptions), inserir_valores_ao_a
 router.post('/inserir_valores_parcelados_ao_array', cors(corsOptions), inserir_valores_parcelados_ao_array)
 router.post('/filtrar_valores_por_tipo', cors(corsOptions), filtrar_valores_por_tipo)
 router.post('/somar_entradas', cors(corsOptions), somar_entradas)
+
+router.post('/inserir_valores_parcelados_ao_array_anual', cors(corsOptions), inserir_valores_parcelados_ao_array_anual)
+router.post('/ler_valores_especificos_anual', cors(corsOptions), ler_valores_especificos_anual)
 
 module.exports = router;
 
