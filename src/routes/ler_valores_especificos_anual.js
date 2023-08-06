@@ -25,7 +25,7 @@ async function ler_valores_especificos_anual(req, res) {
     const collection = database.collection("user_data");
 
     const query = {
-      //"_id" : new ObjectId(requisition.id),
+      "_id" : new ObjectId(requisition.id),
       "_user": requisition.user,
       "years": { "$elemMatch": { [requisition.years]: { "$exists": true } } }
     };
@@ -47,8 +47,6 @@ async function ler_valores_especificos_anual(req, res) {
         }
       },
     ];
-
-    console.log(thisYear)
 
     const result = await collection.aggregate(pipeline).toArray();
     res.status(200).json(result);
