@@ -27,22 +27,18 @@ async function ler_valores_especificos_anual(req, res) {
     const query = {
       "_id" : new ObjectId(requisition.id),
       "_user": requisition.user,
-      "years": { "$elemMatch": { [requisition.years]: { "$exists": true } } }
     };
 
-    const thisYear = requisition.years;
+    const currentYear = requisition.years;
 
     const pipeline = [
       { $match: query },
-      { $project: {
+      {
+        $project: {
           "_id": 1,
           "_user": 1,
           "years": {
-            $filter: {
-              input: "$years",
-              as: "year", 
-              cond: { $gt: [{ $ifNull: ["$$year." + thisYear, null] }, null] }
-            }
+            [currentYear]: "$years." + currentYear
           }
         }
       },

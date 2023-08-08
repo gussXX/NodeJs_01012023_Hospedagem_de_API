@@ -14,7 +14,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function somar_entradas(req, res) {
+async function somar_todos_as_saidas_de_um_mes(req, res) {
 
     const requisition = req.body;
 
@@ -29,40 +29,37 @@ async function somar_entradas(req, res) {
             "_user": requisition.user,
         };
 
+        const anoSelecionado = requisition.years;
+        const mesSelecionado = requisition.mounths;
+
         const pipeline = [
             { $match: query },
             {
                 $project: {
-                    mounth: {
-                        $filter: {
-                            input: `$mounths.${requisition.mounth}`,
-                            as: "item",
-                            cond: {
-                                $and: [
-                                    { $eq: ["$$item.tipe.categories", requisition.tipe.categories] },
-                                    { $eq: ["$$item.tipe.font", requisition.tipe.font] }
-                                ]
-                            }
-                        }
+                    "_id": 1,
+                    "_user": 1,
+                    "years": {
+                        [anoSelecionado]: "$years." + anoSelecionado
                     }
                 }
             },
-            { $unwind: "$mounth" },
             {
-                $project: {
-                    "_id": 0,
-                    "tipe": "$mounth.tipe.categories",
-                    "value": "$mounth.values.value"
+                $addFields: {
+                  "tcurrent_mounth": {
+                    [mesSelecionado]: "$years." + anoSelecionado + ".mounths." + mesSelecionado
+                  }
                 }
-            },
-
-            { $group: { "_id": null, "sumValues": { $sum: "$value" } } },
-            { $project: { "_id": 0, "sumValues": 1 } }
+              },
+              {
+                $project: {
+                  "_id": 1,
+                  "_user": 0,
+                  "tcurrent_mounth": 1
+                }
+              }
         ];
 
         const result = await collection.aggregate(pipeline).toArray();
-
-        console.log(query);
         res.status(200).json(result);
 
     } catch (error) {
@@ -76,4 +73,4 @@ async function somar_entradas(req, res) {
     }
 }
 
-module.exports = { somar_entradas };
+module.exports = { somar_todos_as_saidas_de_um_mes };

@@ -19,9 +19,10 @@ async function inserir_valores_parcelados_ao_array_anual(req, res) {
   const requisition = req.body;
 
   try {
-    await client.connect();
 
     async function insertOnDB(collection, arrayParcelas, requisition, ano_da_parcela, mes_da_parcela, valor_da_parcela) {
+
+      await client.connect();
 
       const mes = mes_da_parcela;
       const valor = valor_da_parcela;
@@ -72,95 +73,75 @@ async function inserir_valores_parcelados_ao_array_anual(req, res) {
       var valueParcelas = Number(requisition.values.value / requisition.values.parc.quant).toFixed(2);
       var quantParcelas = requisition.values.parc.quant;
       var currentParecelas = 1;
+      var controledolaço = true;
 
       for (let i = 0; i < mounthsList.length; i++) {
-        if (currentParecelas < quantParcelas){
-          if (mounthsList[i] == mesDaParcela2){
-            if (mounthsList[i] == 'December'){
+        if (currentParecelas < quantParcelas && controledolaço == true){
+          if (mounthsList[i] == mesDaParcela2 && controledolaço == true){
+            if (mounthsList[i] == 'December' && controledolaço == true){
               mesDaParcela2 = mounthsList[i];
               insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas); 
+
+              console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | O MES É IGUAL A DEZEMBRO")
+
               currentParecelas = currentParecelas + 1
               mesDaParcela2 = 'January';
-              controllerYear = controllerYear + 1; 
+              controllerYear = controllerYear + 1;
               
               for (let index = 0; index < mounthsList.length; index++) {
-                if (mounthsList[index] == mesDaParcela2){
-                  if (currentParecelas < quantParcelas){
+                if (mounthsList[index] == mesDaParcela2 && controledolaço == true){
+                  if (currentParecelas < quantParcelas && controledolaço == true){
                     insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
+
+                    console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | O MES CHEGOU EM DEZEMBRO")
+
                     currentParecelas = currentParecelas + 1;
                     mesDaParcela2 = mounthsList[index + 1];                                 
                   }
-                  if (currentParecelas == quantParcelas){
-                    console.log("ULTIMO VALOR DO ARRAY")
+                  if (currentParecelas == quantParcelas && controledolaço == true){
                     const novoValor = (parseFloat(valueParcelas) +
                     parseFloat(requisition.values.value - (requisition.values.parc.quant * valueParcelas))).toFixed(2);
                     insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, novoValor);
-                    break;
+                    controledolaço = false;
+                    console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | SUPOSTA ULTIMA PARCELA APT DEZEMBRO")
+                    
                   }
-                  break;
+                
                 }
               }
+            } else if(controledolaço == true){
+              insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
+              console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | O MES NÃO COMEÇOU EM DEZEMBRO")
+              mesDaParcela2 = mounthsList[i + 1];
+              currentParecelas = currentParecelas + 1;
             }
-            insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
-            mesDaParcela2 = mounthsList[i + 1];
-            currentParecelas = currentParecelas + 1;
           }
-        } if (currentParecelas == quantParcelas){
-          console.log("chamado!")
+        } if (currentParecelas == quantParcelas && controledolaço == true){
           const novoValor = (parseFloat(valueParcelas) +
           parseFloat(requisition.values.value - (requisition.values.parc.quant * valueParcelas))).toFixed(2);
           insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, novoValor);
-          break;
+          controledolaço = false;
+          console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | SUPOSTA ULTIMA PARCELA FORA DE DEZEMBRO")
+          
         }
       }
 
     } else {
-      null
+      insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, requisition.values.value);
     }
 
+    await client.close();
     res.status(200).json();
 
   } catch (error) {
-
+    await client.close();
     console.error(error);
     res.status(500).json({ error: "" });
 
   } finally {
-   // await client.close();
+    
   }
 };
 
 module.exports = { inserir_valores_parcelados_ao_array_anual };
 
-
-// if (currentParecelas <= quantParcelas) {
-//   console.log("A QUANTIDADE DE PARCELA É MENOR")
-
-//   if (mounthsList[i] == 'December') {
-//     console.log("A LISTA CHEGOU AO MES DE DEZEMBRO")
-
-//     mesDaParcela2 = mounthsList[i]
-//     arrayParcelas.push({ [mesDaParcela2]: parseFloat(valueParcelas).toFixed(2) });
-
-//     insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
-//     currentParecelas = currentParecelas + 1;
-
-//     mesDaParcela2 = "January";
-//     controllerYear = controllerYear + 1;
-//   }
-
-//   for (let index = 0; index < mounthsList.length; index++) {
-
-//     if (mounthsList[index] == mesDaParcela2) {
-//       console.log("O MES A SER ADICIONADO É: " + mesDaParcela2)
-
-//       mesDaParcela2 = mounthsList[i]
-//       arrayParcelas.push({ [mesDaParcela2]: parseFloat(valueParcelas).toFixed(2) })
-
-//       insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
-//       currentParecelas= currentParecelas + 1;
-
-//       mesDaParcela2 = mounthsList[i + 1];
-//     } 
-//   }        
-// }
