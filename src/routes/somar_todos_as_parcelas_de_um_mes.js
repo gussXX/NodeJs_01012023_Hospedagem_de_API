@@ -14,7 +14,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function somar_todos_as_saidas_de_um_mes(req, res) {
+async function somar_todos_as_parcelas_de_um_mes(req, res) {
 
     const requisition = req.body;
 
@@ -44,7 +44,7 @@ async function somar_todos_as_saidas_de_um_mes(req, res) {
             {   $unwind: "$mounthValues" },
             { 
                 $match: { 
-                    "mounthValues.tipe.font": "saida" 
+                    "mounthValues.values.parc.isInstallments": true 
                 }
             },
             { $group: { _id: null, total: { $sum: "$mounthValues.values.value" } } }
@@ -64,4 +64,4 @@ async function somar_todos_as_saidas_de_um_mes(req, res) {
     }
 }
 
-module.exports = { somar_todos_as_saidas_de_um_mes };
+module.exports = { somar_todos_as_parcelas_de_um_mes };
