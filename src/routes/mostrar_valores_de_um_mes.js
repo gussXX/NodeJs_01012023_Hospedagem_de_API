@@ -30,20 +30,28 @@ async function mostrar_valores_de_um_mes(req, res) {
     };
 
     const currentYear = requisition.years;
+    const currentMounth = requisition.mounth;
 
     const pipeline = [
       { $match: query },
       {
         $project: {
-          "_id": 1,
-          "_user": 1,
-          "years": {
-            [currentYear]: "$years." + currentYear
+          _id: 1,
+          _user: 1,
+          currentMounth: {
+            $map: {
+              input: "$years." + currentYear + ".mounths." + currentMounth,
+              as: "item",
+              in: {
+                date: "$$item.date",
+                categories : "$$item.tipe.categories",
+              }
+            }
           }
         }
-      },
+      }
     ];
-
+    
     const result = await collection.aggregate(pipeline).toArray();
     res.status(200).json(result);
 
