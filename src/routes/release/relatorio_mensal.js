@@ -14,7 +14,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function mostrar_valores_de_um_mes(req, res) {
+async function relatorio_mensal(req, res) {
 
   const requisition = req.body;
 
@@ -44,7 +44,11 @@ async function mostrar_valores_de_um_mes(req, res) {
               //$years.2023.mounths.january
               as: "item",
               in: {
-                date: "$$item.date",
+                //date: "$$item.date"
+                date: {
+                  hours: {$hour : "$$item.date"},
+                  minutes: {$minute : "$$item.date"},
+                },
                 categories : "$$item.tipe.categories",
                 parc : "$$item.values.parc.isInstallments",
                 tipe: "$$item.tipe.font",
@@ -70,4 +74,4 @@ async function mostrar_valores_de_um_mes(req, res) {
   }
 }
 
-module.exports = { mostrar_valores_de_um_mes };
+module.exports = { relatorio_mensal };

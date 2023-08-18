@@ -18,12 +18,15 @@ const {somar_todos_as_entradas_de_um_mes} = require('./routes/somar_todos_as_ent
 const {somar_todos_as_parcelas_de_um_mes} = require('./routes/somar_todos_as_parcelas_de_um_mes.js');
 const {mostrar_valores_de_um_mes} = require('./routes/mostrar_valores_de_um_mes.js');
 
+const {trabalhando_com_datas} = require('./routes/trabalhando_com_datas.js');
+
 // ROTAS FINAIS
 
 const {inserir} = require('./routes/release/inserir.js');
 const {somar_entradas} = require('./routes/release/somar_entradas.js');
 const {somar_saidas} = require('./routes/release/somar_saidas.js');
 const {somar_parcelas} = require('./routes/release/somar_parcelas.js');
+const {relatorio_mensal} = require('./routes/release/relatorio_mensal.js');
 
 var cors = require('cors');
 
@@ -49,12 +52,15 @@ router.post('/somar_todos_as_entradas_de_um_mes', cors(corsOptions), somar_todos
 router.post('/somar_todos_as_parcelas_de_um_mes', cors(corsOptions), somar_todos_as_parcelas_de_um_mes)
 router.post('/mostrar_valores_de_um_mes', cors(corsOptions), mostrar_valores_de_um_mes)
 
+router.post('/trabalhando_com_datas', cors(corsOptions), trabalhando_com_datas)
+
 // ROTAS FINAIS
 
 router.post('/inserir', cors(corsOptions), inserir)
 router.post('/somar_entradas', cors(corsOptions), somar_entradas)
 router.post('/somar_saidas', cors(corsOptions), somar_saidas)
 router.post('/somar_parcelas', cors(corsOptions), somar_parcelas)
+router.post('/relatorio_mensal', cors(corsOptions), relatorio_mensal)
 
 module.exports = router;
 
