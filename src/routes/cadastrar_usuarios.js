@@ -7,6 +7,7 @@ const cadastrar_usuarios = (req, res) => {
         useNewUrlParser: true, 
         useUnifiedTopology: true,
         serverApi: {
+            
             version: ServerApiVersion.v1,
             strict: true,
             deprecationErrors: true,
