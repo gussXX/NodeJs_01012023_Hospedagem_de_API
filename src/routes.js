@@ -54,7 +54,7 @@ router.post('/mostrar_valores_de_um_mes', cors(corsOptions), mostrar_valores_de_
 
 router.post('/trabalhando_com_datas', cors(corsOptions), trabalhando_com_datas)
 
-// ROTAS FINAIS
+// ROTAS FINAIS 
 
 router.post('/inserir', cors(corsOptions), inserir)
 router.post('/somar_entradas', cors(corsOptions), somar_entradas)
