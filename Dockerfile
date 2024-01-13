@@ -14,7 +14,6 @@ COPY ./src .
 EXPOSE 9080
 
 # Instale as dependências do projeto
-RUN npm update
 
 RUN npm install
 

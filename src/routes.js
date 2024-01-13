@@ -3,22 +3,22 @@ const router = express.Router();
 
 const {first} = require('./backup/first.js');
 
-const {ler_todos_valores} = require('./routes/ler_todos_valores.js');
-const {cadastrar_usuarios} = require('./routes/cadastrar_usuarios.js');
+const {ler_todos_valores} = require('./routes/test/ler_todos_valores.js');
+const {cadastrar_usuarios} = require('./routes/test/cadastrar_usuarios.js');
 
-const {ler_valores_especificos} = require('./routes/ler_valores_especificos.js');
-const {inserir_valores_ao_array} = require('./routes/inserir_valores_ao_array.js');
-const {inserir_valores_parcelados_ao_array} = require('./routes/inserir_valores_parcelados_ao_array.js');
-const {filtrar_valores_por_tipo} = require('./routes/filtrar_valores_por_tipo.js');
+const {ler_valores_especificos} = require('./routes/test/ler_valores_especificos.js');
+const {inserir_valores_ao_array} = require('./routes/test/inserir_valores_ao_array.js');
+const {inserir_valores_parcelados_ao_array} = require('./routes/test/inserir_valores_parcelados_ao_array.js');
+const {filtrar_valores_por_tipo} = require('./routes/test/filtrar_valores_por_tipo.js');
 
-const {inserir_valores_parcelados_ao_array_anual} = require('./routes/inserir_valores_parcelados_ao_array_anual.js');
-const {ler_valores_especificos_anual} = require('./routes/ler_valores_especificos_anual.js');
-const {somar_todos_as_saidas_de_um_mes} = require('./routes/somar_todos_as_saidas_de_um_mes.js');
-const {somar_todos_as_entradas_de_um_mes} = require('./routes/somar_todos_as_entradas_de_um_mes.js');
-const {somar_todos_as_parcelas_de_um_mes} = require('./routes/somar_todos_as_parcelas_de_um_mes.js');
-const {mostrar_valores_de_um_mes} = require('./routes/mostrar_valores_de_um_mes.js');
+const {inserir_valores_parcelados_ao_array_anual} = require('./routes/test/inserir_valores_parcelados_ao_array_anual.js');
+const {ler_valores_especificos_anual} = require('./routes/test/ler_valores_especificos_anual.js');
+const {somar_todos_as_saidas_de_um_mes} = require('./routes/test/somar_todos_as_saidas_de_um_mes.js');
+const {somar_todos_as_entradas_de_um_mes} = require('./routes/test/somar_todos_as_entradas_de_um_mes.js');
+const {somar_todos_as_parcelas_de_um_mes} = require('./routes/test/somar_todos_as_parcelas_de_um_mes.js');
+const {mostrar_valores_de_um_mes} = require('./routes/test/mostrar_valores_de_um_mes.js');
 
-const {trabalhando_com_datas} = require('./routes/trabalhando_com_datas.js');
+const {trabalhando_com_datas} = require('./routes/test/trabalhando_com_datas.js');
 
 // ROTAS FINAIS
 

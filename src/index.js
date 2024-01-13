@@ -14,7 +14,7 @@ app.use(express.json());
 // DB local (tempo de execução)
 const data = {
     "user" : "guss",
-    "key" : 182
+    "key" : 1
 };
 
 const routes = require('./routes');
@@ -40,5 +40,5 @@ app.post('/add', (req, res) => {
   return res.json({ result });
 });
 
-// o servidor irá rodar dentro da porta 9080 
+// o servidor irá rodar dentro da porta 9080
 app.listen(9080, () => console.log('Express Iniciado!'));
