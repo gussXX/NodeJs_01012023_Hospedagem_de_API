@@ -7,6 +7,9 @@ const bodyParser  = require('body-parser');
 
 require('dotenv').config()
 
+const port = process.env.PORT;
+console.log(`Server listening on port ${port}`);
+
 // crio um servidor express
 const app = express();
 app.use(express.json());
