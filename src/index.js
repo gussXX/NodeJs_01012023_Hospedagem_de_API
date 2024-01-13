@@ -8,7 +8,7 @@ const bodyParser  = require('body-parser');
 require('dotenv').config()
 
 const port = process.env.STRING_MONGODB;
-console.log(`Server listening on port ${port}`);
+console.log(`STRING DO MONGODB ${port}`);
 
 // crio um servidor express
 const app = express();
