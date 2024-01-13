@@ -27,7 +27,7 @@ app.use(routes)
 
 // criação de rota que será acessada utilizando o método HTTP GET/
 // http://localhost:9000/
-app.get('/', (req, res) => {return res.json(data);});
+app.get('/', (req, res) => {return res.json();});
 
 // criação de rota que será acessada utilizando o método HTTP POST/
 // http://localhost:9000/add
@@ -42,6 +42,6 @@ app.post('/add', (req, res) => {
 
   return res.json({ result });
 });
-
+const PORTA = 9080;
 // o servidor irá rodar dentro da porta 9080
-app.listen(9080, () => console.log('Express Iniciado!'));
+app.listen(PORTA, () => console.log(`Express Iniciado! na porta: ${PORTA}`));
