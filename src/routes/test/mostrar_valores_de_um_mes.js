@@ -18,6 +18,8 @@ async function mostrar_valores_de_um_mes(req, res) {
 
   const requisition = req.body;
 
+  console.log(requisition);
+
   try {
     await client.connect();
 
@@ -36,12 +38,11 @@ async function mostrar_valores_de_um_mes(req, res) {
       { $match: query },
       {
         $project: {
-          _id: 1,
-          _user: 1,
+          // _id: 1,
+          // _user: 1,
           currentMounth: {
             $map: {
               input: "$years." + currentYear + ".mounths." + currentMounth,
-              //$years.2023.mounths.january
               as: "item",
               in: {
                 date: "$$item.date",
@@ -58,7 +59,7 @@ async function mostrar_valores_de_um_mes(req, res) {
     
     const result = await collection.aggregate(pipeline).toArray();
     res.status(200).json(result);
-
+    console.log('MOSTRAR VALORES DE UM MES - Executado com sucesso!')
   } catch (error) {
 
     console.error(error);

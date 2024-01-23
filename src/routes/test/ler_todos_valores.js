@@ -31,6 +31,7 @@ const ler_todos_valores = (req, res) => {
             if (result.length === 0){
                 res.status(404).json("A consulta não retornou valores.")
             } else{
+                console.log("LER TODOS OS VALORES - Executado com sucesso!")
                 res.status(200).json(result)
             }
         } 

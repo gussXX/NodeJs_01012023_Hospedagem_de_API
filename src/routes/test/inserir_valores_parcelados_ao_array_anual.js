@@ -36,7 +36,7 @@ async function inserir_valores_parcelados_ao_array_anual(req, res) {
         },
         values: {
           "total": requisition.values.value,
-          "value": valor,
+          "value": parseFloat(valor),
           "parc": {
             "isInstallments": requisition.values.parc.isInstallments,
             "quant": requisition.values.parc.quant,

@@ -14,7 +14,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function somar_todos_as_saidas_de_um_mes(req, res) {
+async function somar_entrada_e_saida(req, res) {
 
     const requisition = req.body;
 
@@ -24,6 +24,8 @@ async function somar_todos_as_saidas_de_um_mes(req, res) {
         const database = client.db("db_users");
         const collection = database.collection("user_data");
 
+        console.log(requisition);
+
         const query = {
             "_id": new ObjectId(requisition.id),
             "_user": requisition.user,
@@ -31,6 +33,7 @@ async function somar_todos_as_saidas_de_um_mes(req, res) {
 
         const anoSelecionado = requisition.years;
         const mesSelecionado = requisition.mounths;
+        const tipe = requisition.tipe;
 
         const pipeline = [
             { $match: query },
@@ -44,7 +47,7 @@ async function somar_todos_as_saidas_de_um_mes(req, res) {
             {   $unwind: "$mounthValues" },
             { 
                 $match: { 
-                    "mounthValues.tipe.font": "saida" 
+                    "mounthValues.tipe.font": tipe
                 }
             },
             { $group: { _id: null, total: { $sum: "$mounthValues.values.value" } } }
@@ -64,4 +67,4 @@ async function somar_todos_as_saidas_de_um_mes(req, res) {
     }
 }
 
-module.exports = { somar_todos_as_saidas_de_um_mes };
+module.exports = { somar_entrada_e_saida };

@@ -44,11 +44,11 @@ async function relatorio_mensal(req, res) {
               //$years.2023.mounths.january
               as: "item",
               in: {
-                //date: "$$item.date"
-                date: {
-                  hours: {$hour : "$$item.date"},
-                  minutes: {$minute : "$$item.date"},
-                },
+                date: "$$item.date",
+                // date: {
+                //   hours: {$hour : "$$item.date"},
+                //   minutes: {$minute : "$$item.date"},
+                // },
                 categories : "$$item.tipe.categories",
                 parc : "$$item.values.parc.isInstallments",
                 tipe: "$$item.tipe.font",
