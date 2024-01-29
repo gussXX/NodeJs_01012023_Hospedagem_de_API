@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router();
 
+//BUILD
+const {filtro} = require('./routes/build/filtro.js');
+
 const {first} = require('./backup/first.js');
 
 const {ler_todos_valores} = require('./routes/test/ler_todos_valores.js');
@@ -34,6 +37,8 @@ var corsOptions = {
     origin: '*',
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
+
+router.post('/filtro', cors(corsOptions), filtro)
 
 router.get('/first', first)
 
