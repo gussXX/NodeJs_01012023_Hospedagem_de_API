@@ -24,6 +24,11 @@ async function filtro(req, res) {
     const database = client.db("db_users");
     const collection = database.collection("user_data");
 
+    //
+    // const date = Date("2024-01-04T00:00:00.000Z");
+    // console.log(date.ISODate())
+    //
+
     const query = {
       "_id" : new ObjectId(requisition.id),
       "_user": requisition.user,
@@ -34,22 +39,24 @@ async function filtro(req, res) {
     const pipeline = [
       { $match: query },
       {
-        $match: {
-          $or: [
-            { "years.2024.mounths.January.date": { 
-              $gte: Date("2024-01-04T00:00:00.000Z"), 
-              $lt: Date("2024-03-09T00:00:00.000Z") } 
+        "years.2024.mounths.January": {
+          "$elemMatch": {
+            "date": {
+              "$dateRange": {
+                "start": {
+                  "$year": 2024,
+                  "$month": 1,
+                  "$day": 4,
+                },
+                "end": {
+                  "$year": 2024,
+                  "$month": 1,
+                  "$day": 10,
+                },
+              },
             },
-            { "years.2024.mounths.February.date": {
-              $gte: Date("2024-01-04T00:00:00.000Z"), 
-              $lt: Date("2024-03-09T00:00:00.000Z") } 
-            },
-            { "years.2024.mounths.March.date": { 
-              $gte: Date("2024-01-04T00:00:00.000Z"),
-              $lt: Date("2024-03-09T00:00:00.000Z") }
-            }
-          ]
-        }
+          },
+        },
       },
       {
         $project: {
