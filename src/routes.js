@@ -3,6 +3,8 @@ const router = express.Router();
 
 //BUILD
 const {filtro} = require('./routes/build/filtro.js');
+const {filtrar_categoria} = require('./routes/build/filtrar_categoria.js');
+const {filtrar_data} = require('./routes/build/filtrar_data.js');
 
 const {first} = require('./backup/first.js');
 
@@ -39,6 +41,9 @@ var corsOptions = {
   }
 
 router.post('/filtro', cors(corsOptions), filtro)
+router.post('/filtrar_categoria', cors(corsOptions), filtrar_categoria)
+router.post('/filtrar_data', cors(corsOptions), filtrar_data)
+
 
 router.get('/first', first)
 
