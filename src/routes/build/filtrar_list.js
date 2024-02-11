@@ -14,7 +14,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function filtrar_data(req, res) {
+async function filtrar_list(req, res) {
 
     const requisition = req.body;
 
@@ -29,7 +29,12 @@ async function filtrar_data(req, res) {
             "_user": requisition.user,
         };
 
-        const currentYear = requisition.years;
+        // const startDate = "2024-01-01T00:00:00.000Z"
+        // const finalDate = "2025-01-01T00:00:00.000Z"
+        const startDate = requisition.startDate
+        const finalDate = requisition.finalDate
+
+        console.log(startDate);
 
         const pipeline = [
             { $match: query },
@@ -48,8 +53,8 @@ async function filtrar_data(req, res) {
                               as: "item",
                               cond: {
                                 $and: [
-                                  { $gte: ["$$item.date", { $dateFromString: { dateString: "2024-01-01T00:00:00.000Z" } }] },
-                                  { $lte: ["$$item.date", { $dateFromString: { dateString: "2025-01-04T23:59:59.999Z" } }] },
+                                  { $gte: ["$$item.date", { $dateFromString: { dateString: startDate } }] },
+                                  { $lte: ["$$item.date", { $dateFromString: { dateString: finalDate } }] },
                                   //{ $eq:  ["$$item.tipe.categories", "Conta"] }
                                 ]
                               },
@@ -73,6 +78,11 @@ async function filtrar_data(req, res) {
             {
                 $unwind : "$result.items"
             },
+            {
+                $sort: {
+                    "result.items.date": -1
+                }
+            }
             // {
             //     $group : {
             //         _id: null,
@@ -88,27 +98,12 @@ async function filtrar_data(req, res) {
         const listBuild = result.map(item => item.result);
         //
         let finalResult = {
-          chart : null,
           list : null
         }
         //
-        let chartBuild = {
-          entrada : 0,
-          saida : 0
-        };
-        //
-        var ensa = ['entrada', 'saida'];
-        for (let index = 0; index < ensa.length; index++) {
-          const filteredResults = simplifiedResults.filter(item => item.items.tipe.font === ensa[index]);
-          const totalValue = filteredResults.reduce((acc, item) => acc + item.items.values.value, 0);
-        //
-          chartBuild[ensa[index]] = totalValue;
-        }
-
-        finalResult['chart'] = chartBuild;
         finalResult['list'] = listBuild;        
         //
-        res.status(200).json(finalResult);
+        res.status(200).json(listBuild);
 
     } catch (error) {
 
@@ -121,4 +116,4 @@ async function filtrar_data(req, res) {
     }
 }
 
-module.exports = { filtrar_data };
+module.exports = { filtrar_list };
