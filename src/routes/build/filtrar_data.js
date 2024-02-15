@@ -30,6 +30,8 @@ async function filtrar_data(req, res) {
         };
 
         const currentYear = requisition.years;
+        const startDate = requisition.startDate
+        const finalDate = requisition.finalDate
 
         const pipeline = [
             { $match: query },
@@ -48,8 +50,8 @@ async function filtrar_data(req, res) {
                               as: "item",
                               cond: {
                                 $and: [
-                                  { $gte: ["$$item.date", { $dateFromString: { dateString: "2024-01-01T00:00:00.000Z" } }] },
-                                  { $lte: ["$$item.date", { $dateFromString: { dateString: "2025-01-04T23:59:59.999Z" } }] },
+                                  { $gte: ["$$item.date", { $dateFromString: { dateString: startDate } }] },
+                                  { $lte: ["$$item.date", { $dateFromString: { dateString: finalDate } }] },
                                   //{ $eq:  ["$$item.tipe.categories", "Conta"] }
                                 ]
                               },
@@ -89,7 +91,6 @@ async function filtrar_data(req, res) {
         //
         let finalResult = {
           chart : null,
-          list : null
         }
         //
         let chartBuild = {
@@ -98,17 +99,16 @@ async function filtrar_data(req, res) {
         };
         //
         var ensa = ['entrada', 'saida'];
+        //
         for (let index = 0; index < ensa.length; index++) {
           const filteredResults = simplifiedResults.filter(item => item.items.tipe.font === ensa[index]);
-          const totalValue = filteredResults.reduce((acc, item) => acc + item.items.values.value, 0);
+          const totalValue = parseFloat(filteredResults.reduce((acc, item) => acc + item.items.values.value, 0));
         //
-          chartBuild[ensa[index]] = totalValue;
+          chartBuild[ensa[index]] = totalValue.toString();
         }
-
-        finalResult['chart'] = chartBuild;
-        finalResult['list'] = listBuild;        
+        console.log(chartBuild)
         //
-        res.status(200).json(finalResult);
+        res.status(200).json(chartBuild);
 
     } catch (error) {
 

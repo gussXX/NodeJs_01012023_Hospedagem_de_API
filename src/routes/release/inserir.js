@@ -28,9 +28,11 @@ async function inserir(req, res) {
       const valor = parseFloat(valor_da_parcela);
       const total = parseFloat(requisition.values.value)
 
+      console.log(requisition.date)
+
       const newObject = {
         _id: new ObjectId(0),
-        date: new Date(),
+        date: new Date(requisition.date),
         tipe: {
           "categories": requisition.tipe.categories,
           "font": requisition.tipe.font
