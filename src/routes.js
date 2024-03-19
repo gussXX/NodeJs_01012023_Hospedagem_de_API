@@ -27,7 +27,7 @@ const {mostrar_valores_de_um_mes} = require('./routes/test/mostrar_valores_de_um
 const {trabalhando_com_datas} = require('./routes/test/trabalhando_com_datas.js');
 
 // ROTAS FINAIS
-
+const {deletar} = require('./routes/release/deletar.js');
 const {inserir} = require('./routes/release/inserir.js');
 const {somar_entradas} = require('./routes/release/somar_entradas.js');
 const {somar_saidas} = require('./routes/release/somar_saidas.js');
@@ -67,7 +67,7 @@ router.post('/mostrar_valores_de_um_mes', cors(corsOptions), mostrar_valores_de_
 router.post('/trabalhando_com_datas', cors(corsOptions), trabalhando_com_datas)
 
 // ROTAS FINAIS 
-
+router.post('/deletar', cors(corsOptions), deletar)
 router.post('/inserir', cors(corsOptions), inserir)
 router.post('/somar_entradas', cors(corsOptions), somar_entradas)
 router.post('/somar_saidas', cors(corsOptions), somar_saidas)
