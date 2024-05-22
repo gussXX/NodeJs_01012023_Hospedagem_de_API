@@ -7,8 +7,9 @@ const bodyParser  = require('body-parser');
 
 require('dotenv').config()
 
-// const port = process.env.STRING_MONGODB;
-// console.log(`STRING DO MONGODB ${port}`);
+const port = process.env.STRING_MONGODB;
+// const port = processEnv.STRING_MONGODB; 
+console.log(`STRING DO MONGODB ${port}`);
 
 // crio um servidor express
 const app = express();
@@ -51,3 +52,5 @@ app.post('/add', (req, res) => {
 const PORTA = 9080;
 // o servidor irá rodar dentro da porta 9080
 app.listen(PORTA, () => console.log(`Express Iniciado! na porta: ${PORTA}`));
+
+//STRING_MONGODB='mongodb+srv://gustavobressan:bringme33@financas.i3pi8od.mongodb.net/?retryWrites=true&w=majority'

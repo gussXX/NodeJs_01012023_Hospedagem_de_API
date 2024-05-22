@@ -20,7 +20,35 @@ async function inserir(req, res) {
 
   try {
 
-    async function insertOnDB(collection, arrayParcelas, requisition, ano_da_parcela, mes_da_parcela, valor_da_parcela) {
+    function getDate(mes_vigente){
+      const currentDate = new Date();
+
+      const day = currentDate.getDate();
+      const year = currentDate.getFullYear();
+      const hours = currentDate.getHours();
+      const minutes = currentDate.getMinutes();
+      const seconds = currentDate.getSeconds();
+      const milliseconds = currentDate.getMilliseconds();
+
+      // console.log(mounthsNames[mes_vigente])
+
+      const newDate = new Date(
+        year,
+        mounthsNames[mes_vigente], 
+        day, 
+        hours,
+        minutes, 
+        seconds, 
+        milliseconds
+      );
+      // console.log("===============")
+      // console.log(newDate)
+      // console.log("===============")
+
+      return newDate;
+    }
+
+    async function insertOnDB(collection, arrayParcelas, requisition, ano_da_parcela, mes_da_parcela, valor_da_parcela, data_com_o_mes) {
 
       await client.connect();
 
@@ -32,7 +60,7 @@ async function inserir(req, res) {
 
       const newObject = {
         _id: new ObjectId(0),
-        date: new Date(requisition.date),
+        date: data_com_o_mes,
         tipe: {
           "categories": requisition.tipe.categories,
           "font": requisition.tipe.font
@@ -70,6 +98,21 @@ async function inserir(req, res) {
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December'
     ];
+    
+    const mounthsNames = {
+      'January' : 0, 
+      'February': 1,
+      'March': 2,
+      'April': 3,
+      'May': 4,
+      'June':5 ,
+      'July': 6,
+      'August': 7,
+      'September': 8,
+      'October': 9,
+      'November': 10,
+      'December': 11,
+    }
 
     var arrayParcelas = []
 
@@ -88,6 +131,7 @@ async function inserir(req, res) {
               insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
 
               console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | O MES É IGUAL A DEZEMBRO")
+              console.log(mes_da_parcela2)
 
               currentParecelas = currentParecelas + 1
               mesDaParcela2 = 'January';
@@ -96,8 +140,9 @@ async function inserir(req, res) {
               for (let index = 0; index < mounthsList.length; index++) {
                 if (mounthsList[index] == mesDaParcela2 && controledolaço == true) {
                   if (currentParecelas < quantParcelas && controledolaço == true) {
-                    insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas);
-
+                    const data_com_o_mes = getDate(mesDaParcela2)
+                    //
+                    insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, valueParcelas, data_com_o_mes);
                     console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | O MES CHEGOU EM DEZEMBRO")
 
                     currentParecelas = currentParecelas + 1;
@@ -105,7 +150,9 @@ async function inserir(req, res) {
                   }
                   if (currentParecelas == quantParcelas && controledolaço == true) {
                     const novoValor = parseFloat((parseFloat(valueParcelas) + parseFloat(requisition.values.value - (requisition.values.parc.quant * valueParcelas))).toFixed(2));
-                    insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, novoValor);
+                    const data_com_o_mes = getDate(mesDaParcela2)
+                    //
+                    insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, novoValor, data_com_o_mes);
                     controledolaço = false;
                     console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | SUPOSTA ULTIMA PARCELA APT DEZEMBRO")
 
@@ -114,7 +161,9 @@ async function inserir(req, res) {
                 }
               }
             } else if (controledolaço == true) {
-              insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, parseFloat(valueParcelas));
+              const data_com_o_mes = getDate(mesDaParcela2)
+              //
+              insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, parseFloat(valueParcelas), data_com_o_mes);
               console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | O MES NÃO COMEÇOU EM DEZEMBRO")
               mesDaParcela2 = mounthsList[i + 1];
               currentParecelas = currentParecelas + 1;
@@ -123,15 +172,18 @@ async function inserir(req, res) {
         } if (currentParecelas == quantParcelas && controledolaço == true) {
           const novoValor = (parseFloat(valueParcelas) +
             parseFloat(requisition.values.value - (requisition.values.parc.quant * valueParcelas))).toFixed(2);
-          insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, parseFloat(novoValor));
+            const data_com_o_mes = getDate(mesDaParcela2)
+            //
+          insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, parseFloat(novoValor), data_com_o_mes);
           controledolaço = false;
           console.log("ADICIONADO AO BANCO, QUANTIDADE DE PARCELAS: " + quantParcelas + " | PARCELA ATUAL: " + currentParecelas + " | MES: " + mesDaParcela2 + " | SUPOSTA ULTIMA PARCELA FORA DE DEZEMBRO")
-
         }
       }
 
     } else {
-      insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, requisition.values.value);
+      const data_com_o_mes = getDate(mesDaParcela2)
+      //
+      insertOnDB(collection, arrayParcelas, requisition, controllerYear, mesDaParcela2, requisition.values.value, data_com_o_mes);
     }
 
     await client.close();

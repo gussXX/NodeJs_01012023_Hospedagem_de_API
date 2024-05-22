@@ -1,5 +1,6 @@
 const { MongoClient, ServerApiVersion, ObjectId, ISODate} = require('mongodb');
 
+// const uri = process.env.STRING_MONGODB;
 const uri = process.env.STRING_MONGODB;
 
 const mongoOption = {
@@ -14,7 +15,7 @@ const mongoOption = {
 
 const client = new MongoClient(uri, mongoOption);
 
-async function filtro(req, res) {
+async function filtro(req, res) { 
 
   const requisition = req.body;
 
