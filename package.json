@@ -11,10 +11,10 @@
   "license": "ISC",
   "dependencies": {
     "amp-toolbox-cors": "^1.2.0-alpha.2",
-    "appnode": "github:gussXX/appstore",
+    "appnode": "https://github.com/gussXX/NodeJs_01012023_Hospedagem_de_API.git",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.5",
     "env": "^0.0.2",
     "express": "^4.19.2",
     "moment-timezone": "^0.5.43",

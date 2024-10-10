@@ -1,15 +1,16 @@
 // importando os pacotes para uso no arquivo index.js
-const express     = require('express');
-const morgan      = require('morgan');
-const cors        = require('cors');
-const bodyParser  = require('body-parser');
 
+const express = require('express');
+//const morgan      = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-require('dotenv').config()
+//Require dotenv
+require('dotenv').config({ path: '.env' });
 
 const port = process.env.STRING_MONGODB;
-// const port = processEnv.STRING_MONGODB; 
-console.log(`STRING DO MONGODB ${port}`);
+//console.log(`STRING DO MONGODB ${port}`);
 
 // crio um servidor express
 const app = express();
@@ -23,8 +24,8 @@ app.use(cors({
 
 // DB local (tempo de execução)
 const data = {
-    "user" : "guss",
-    "key" : 1
+  "user": "guss",
+  "key": 1
 };
 
 const routes = require('./routes');
@@ -34,21 +35,25 @@ app.use(routes)
 
 // criação de rota que será acessada utilizando o método HTTP GET/
 // http://localhost:9000/
-app.get('/', (req, res) => {return res.json();});
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+})
 
 // criação de rota que será acessada utilizando o método HTTP POST/
 // http://localhost:9000/add
-app.post('/add', (req, res) => {
-  const result = req.body;
 
-  if (!result) {
+// ===================================
+/* 
+    app.post('/add', (req, res) => {
+    const result = req.body;
+    if (!result) {
     return res.status(400).end();
-  }
-
-  data.push(result);
-
-  return res.json({ result });
-});
+    }
+    data.push(result);
+    return res.json({ result });
+    });
+*/
+// ===================================
 const PORTA = 9080;
 // o servidor irá rodar dentro da porta 9080
 app.listen(PORTA, () => console.log(`Express Iniciado! na porta: ${PORTA}`));
